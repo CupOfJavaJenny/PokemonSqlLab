@@ -1,0 +1,81 @@
+SQL
+What are all the types of pokemon that a pokemon can have?
+SELECT* name FROM types;   Normal, water, grass, rock, etc…
+
+What is the name of the pokemon with id 45?
+SELECT * FROM Pokemon’s WHERE id=45;   Evee
+
+How many pokemon are there?
+SELECT COUNT(*) FROM pokemons;    656
+
+How many types are there?
+SELECT COUNT(*) FROM types;    18
+
+How many pokemon have a secondary type?
+SELECT COUNT(*) FROM pokemons GROUP BY secondary_type;  19
+
+What are all the primary types and how many pokemon have that type?
+SELECT COUNT(*) FROM pokemons GROUP BY primary_type;  18
+
+Part 3
+What is each pokemon's primary type?
+
+SELECT pokemons.name,types.name
+FROM pokemons
+JOIN types ON pokemons.primary_type= types.id;
+
+
+What is Rufflet's secondary type?
+SELECT pokemons.name,types.name FROM pokemons LEFT JOIN types ON pokemons.secondary_type=types.id WHERE pokemons.name='Rufflet';
+
+What are the names of the pokemon that belong to the trainer with trainerID 303?
+SELECT pokemons.name,pokemon_trainer.trainerId FROM pokemons JOIN pokemon_trainer ON pokemons.id=pokemon_trainer.pokemon_id WHERE pokemon_trainer.trainerId='303';
+
+How many pokemon have a secondary type Poison
+SELECT types.name, COUNT(*) FROM pokemons JOIN types ON pokemons.secondary_type=types.Id WHERE types.name='poison';
+Poison 31
+
+How many pokemon only belong to one trainer and no other?
+SELECT (table1.column , table2.column) FROM table 1 Join table2 ON (table.name= table.name)
+
+What are all the primary types and how many pokemon have that type?
+SELECT types.name,COUNT(*) FROM pokemons JOIN types ON pokemons.primary_type = types.ID GROUP BY types.name;
+
+How many pokemon at level 100 does each trainer with at least one level 100 pokemone have?
+SELECT COUNT(*) AS 'Pokemon_at_level_100_per_trainer'
+     -> FROM pokemon_trainer
+     -> WHERE pokelevel = 100
+     -> GROUP BY trainerID;
+
+
+How many pokemon belong to one trainer and no other?
+SELECT COUNT(*) as Pokemons_That_Only_Belong_To_One_Trainer
+FROM(SELECT pokemon_id FROM pokemon_trainer GROUP BY pokemon_trainer.pokemon_id HAVING COUNT( pokemon_trainer.pokemon_id) = 1)
+AS single_trainer_one_pokemon;
+ANSWER: 13
+
+PART 4
+
+SELECT pokemons.name AS "Pokemon Name", trainers.trainername AS "Trainer Name", pokemon_trainer.pokelevel AS "Level", pt.name AS "Primary Type", st.name AS "Secondary Type"
+FROM pokemons
+JOIN types AS pt ON pokemons.primary_type = pt.id
+JOIN types AS st ON pokemons.secondary_type = st.id
+JOIN pokemon_trainer ON pokemon_trainer.pokemon_id = pokemons.id
+JOIN trainers ON pokemon_trainer.trainerID = trainers.trainerID
+ORDER BY Level DESC limit 50;
+
+Gambler is the strongest because they have the most level 100 pokemon
+
+
+
+
+
+
+
+
+
+
+
+
+
+
